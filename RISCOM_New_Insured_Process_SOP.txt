@@ -1,0 +1,560 @@
+Opening the Clearance Desk- ImageRight
+
+	•	Establishing the RDC connection if Image Right is not connected. 
+
+	•	Refresh the clearance box by locating the "To Do List" tab in ImageRight. Click on the following steps:
+	•	Workflow -> UW_NEWBUS - Manual Process, verify if these are default values
+	•	Step -> NEW_ACCT_SUBMISSION - Manual Process,  verify if these are default values
+	•	User -> Unassigned - Manual Process,  verify if these are default values
+	•	Click -> Fetch
+
+	•	Noting effective date and priority. 
+	•	Manual process to prioritise the files -> Prerequisite: Arrange the "Effective Dates" in ascending order and compare the "Priority" under the TO DO list. (Step 3a to Step 3c)
+	•	Once the Clearance Box is sorted by submissions that were sent to InstyQuote@riscomins.com (Priority 1) on the top in red, further sorted by the time the submission was initiated/time it arrived. 
+	•	Below the Instys will be the submissions sent to Clearance@riscomins.com (Priority 5), also sorted by the time they arrived. 
+	•	Select and open EACH submission as they come in. You will need to fetch the Clearance Box every time you come back to it/after processing each submission. This is to make sure you have the most current submissions showing in the box, and can identify Instys as they arrive. 
+	•	Sometimes, you will find an Insty that was sent to Clearance@riscomins.com. You will need to change the priority to Priority 1 on these, when you go to mark the Effective Date. 
+	•	The same goes for when an agent sends a submission to InstyQuote@riscomins.com. If it is a true non-Insty per the application, you will need to readjust the priority to 5. 
+	•	Special Note  -> a UW can request ANY submission to be an Insty. They know the specifics of their file, and may be in a rush for the submission for any reason. 
+	•	Manual Process for us to verify-> An agent, however, can never request a submission to become an Insty if it’s outside of the 2 weeks. 
+
+	•	Open the submission by double clicking on the line or right click and select open file.
+Instead of double click or right click, we click on Auto Process (automation process).
+
+
+	•	Check the application's Information page for the effective date. 
+	•	Manual Process to verify -> Note: If the ACORD form does not have the Effective Date, we need to check if it’s mentioned in the Email.
+
+	•	Go to the card information (located in the left side of the ImageRight viewer) and double click "No Description". Be sure that both tasks in the line below are highlighted. Right click and click on "Change.
+	•	Manual Process to verify -> “Task” can be left as is and “No Description” must be changed to “Effective Date”
+	•	Priority--> Enter Effective Date on description line--> mark priority 1 if Insty/ priority 5 if not. Click "ok".
+
+
+
+	•	Once the submission is marked with the effective date in the box, and all Insty (if any) are identified, its time to begin processing a submission.
+	•	Remember:
+	•	Instys (Priority 1) are to be processed by effective date order.
+	•	Non-Insty (Priority 5) submissions are to be processed in the order in which they are received. (Why: Agents who submit applications for an insured are accepted on a first come, first served basis).
+	•	Manual Process to verify -> Check the Effective Date (prioritised based on ascending order)
+	•	Once you select the first submission you need to work on, right click the file and select “Autoprocess Selected Tasks.”
+
+	•	The below window will pop up. Click anywhere in the ImageRight viewer so this window goes behind ImageRight for later. We will pull this window back up towards the end of processing the submission.
+
+	•	To begin ordering pages in IR, lets start with the images. Select any images that are just supporting images to an email signature etc. If you find pictures of units, buildings, products, etc., do not delete these.
+	•	Identify and label the main pages of the application. This would be your INFO page and LOBs.
+
+
+	•	To begin moving the pages to where they belong, start with the correspondence. Highlight the email and drag it to ANY yellow folder, EXCEPT the top yellow folder with the TEMP #.
+	•	A pop-up will appear titles "File Information." Click "Change Document Types" and scroll and find the appropriate folder. Refer to the Special Notes: Page Order Checklist to know where specific items are to be dropped in.
+Page Order & Labeling List 
+	•	Application : Prior to Binding > Quote Application > Quote Application
+	•	COI Certificate : Underwriting > COI > Misc
+	•	Correspondence : Prior to Bind > Correspondence > Misc
+	•	Correspondence (Interoffice) : Prior to Binding > Quote Application > Interoffice Correspondence > (Rename for Identification)
+	•	IFTAs : Underwriting > Risk Evaluation Reports > IFTAS
+	•	Loss Runs : Loss Runs > Loss Runs
+	•	Manual Packet : Underwriting > Risk Documentation > Misc > (Rename to: MANUAL PACKET) (MANUAL PACKET – UMB if for Excess)
+	•	Misc Documents (use with discretion) : Underwriting > Risk Evaluation Reports > Misc > (Rename for Identification if Possible)
+	•	MVRs : Drivers > Request > Misc > (Rename to: MVR)
+	•	Narratives : Underwriting > Risk Evaluation Reports > Narratives
+	•	Photos : Underwriting > Risk Evaluation Reports > Photos
+	•	Supplementals : Underwriting > Risk Evaluation Reports > Supplemental
+
+INFO – Acord 125 pg. 1 (or main information page of another style application) 
+	•	BA – Business Auto 	
+	•	BI – Business Income 
+	•	BM – Boiler & Machinery
+	•	COI – Certificate of Insurance 
+	•	CP – Commercial Property 
+	•	EDP – Electronic Data
+	•	EF – Equipment Floater 
+	•	GL – General Liability 
+	•	GARAGE - Garage
+	•	IM – Inland Marine
+	•	MTC – Motor Truck Cargo 
+	•	UMB – Umbrella
+	•	WC – Worker’s Comp
+
+COMMON ACRONYMS/PAGE LABELS ( Rev. 7/26/23)
+These are some common acronyms you will see used at the Clearance Desk. The underlined acronyms are also page labels used to label the pages that come in as part of the application. (Also see)
+	•	AOR/AORL – Agent of Record Letter 
+	•	BA – Business Auto (LOB)
+	•	BI – Business Income 
+	•	BM – Boiler & Machinery
+	•	COI – Certificate of Insurance 
+	•	CP – Commercial Property (LOB) 
+	•	DNQ – Do Not Quote
+	•	EDP – Electronic Data
+	•	EF – Equipment Floater (LOB) – Also known as: Inland Marine (IM) 
+	•	GARAGE – Garage Dealer
+	•	GL – General Liability (LOB)
+	•	IM – Inland Marine (LOB) – Also known as: Equipment Floater (EF) LOB 
+	•	MGA – Managing General Agent 
+	•	MTC – Motor Truck Cargo (LOB) UA – Underwriting Assistant
+	•	UM – Uninsured Motorist
+	•	UMB – Umbrella (LOB) – Also known as: Excess Liability 
+	•	UW – Underwriter
+	•	WC – Workers Comp 
+	•	WS – Wholesale
+
+
+17. When working with the Temp files in New UW_NEWBUS / NEW_ACCT_SUBMISSION, and you determine it’s a renewal account but the control number hasn’t been generated, please do the following
+	•	Change the description to the Eff Date-PDG RWL
+	•	Reschedule the task to UW_RENEWALS -> Hold Renewal Account Submission
+	•	Manual Process to verify -> The selection has to be UW_RENEWALS -> Hold Renewal Account Submission.
+	•	Manual Process -> Make sure we delete all the photos under the photos file/folder. (Folder Underwriting -> Risk Evaluation -> Photos)  
+
+Search Insured - IMS
+	•	Checking the RDC connection.
+	•	Search all the insured names and DBA if any against the Do Not Quote (DNQ) List.
+	•	The Do Not Quote list is found in the shared drive under S:\Underwriting\DO NOT QUOTE
+	•	The list is updated periodically so use the most recent list.
+	•	If an insured name appears on the list see Special Notes - Do Not Quote List for further processing instructions. Example:
+
+Do Not Quote List
+
+The Do Not Quote List is a reference guide for the UW to be used in identifying accounts that may not be a fit for our program based on past underwriting concerns as noted by senior management.
+The underwriter will not pursue quoting the account without approval from senior management for this reason. If we do receive a submission for an insured whose name on the list, follow the below steps:
+	•	Process the submission as normal then
+	•	Add a File Note to the UW
+	•	Send an email to the UW with cc to UW Mangers email group
+	•	The file should be large, red, bold type and state the following:
+“THIS RISK IS ON THE DO NOT QUOTE LIST - SENIOR MGT APPROVAL REQUIRED TO QUOTE”
+	•	Type the File Note > Highlight the Text > Right Click > Character
+
+	•	Size: 18 > Attributes, check: Bold > Color: Red > OK
+
+
+
+   
+
+	•	Send the UW an email with a cc to UW Managers email group to let them know
+1. SIGNATURE FOR DO NOT QUOTE LIST:
+Clearance received a submission for the above-named insured, and set it up under Control #XXXXXX.
+The insured is on our DO NOT QUOTE list.
+	•	No need to end the task. Leave the submission in “Submitted” status.
+
+	•	Cross Referencing Steps:
+	•	Open up the application and search Insured Name (DBA, and any other named insureds), Phone #, Address and FEIN
+	•	You’ll find this information on the INFO page
+	•	You will need to check all insured names
+	•	Tip: Start with a truncated/shorter version of the insured name/address. This way it will pull any similar names/addresses as well, if any. For PO Boxes, just search for “Box #”
+	•	You will not always have all the above-mentioned information, or be able to match all of it against IMS. Sometimes only some info matches a couple different insureds. This is where learning to use an educated process of elimination to determine if the current insured (the application) is indeed a match for an insured pulling in IMS.
+	•	Tip: If you need further verification, you can take a look at drivers, units, description of business, or contact info.
+	•	Tip: If you find other insureds in IMS with matching information, minimize their insured window to remind you later to make a file note of the similarities you found.
+	•	Example: Look up Magnetite Works LLC in IMS > Open card > Go through the Cross- Referencing steps above, then take a look at the File Note in Control #182115 to know how to notate Similar Matches and Possible Relations
+	•	New Insured, New Submission, New Quote and Renewals follow the below instructions.
+	•	New Insured
+	•	None of the application information pulls any insured in IMS
+	•	Only some information from the application matches, but after review, it’s determined that it is not the same insured
+	•	Follow Processing a Submission in IMS steps
+	•	IF Insured was not found in IMS, follow the below instructions to add a new insured.
+	•	From Page 1 of the Acord app, or INFO page of application.
+	•	If the application is not in Acord format, locate this info on the app provided
+	•	Type (Select Other if nothing is listed anywhere)]
+
+	•	Business Name (Add “(See Named Insured Addendum)” if there are other insureds.  
+
+	•	FEIN
+
+	•	Address
+	•	Phone # (If no Phone # listed on Page 1, check Page 2)
+
+	•	Click the SAVE button, then Create a "New Submission For This Insured" underneath.
+	•	Instead of typing the Business Name again, we click on "use insured name" which copies the same Business name.
+
+	•	Click on hyperlink: Create a New Submission for this Insured and follow the next steps for Processing a Submission into IMS
+	•	Now we will enter Contact Info from Page 2 of the Acord app.
+
+
+	•	Enter First Name
+	•	Last Name
+	•	Status: Active
+	•	Check off the Special Contacts that are shown on application (if none are shown, select: Accounting, Inspection Contact, Insured, & Loss Control)
+	•	Office: Phone # on application
+	•	Email
+	•	Delivery is always MAIL
+	•	Save and close window
+
+
+Processing a Submission in IMS: Entering Producer and UW
+
+	•	Begin to enter the agent's name, Last name first, in the "Producer By Contact" text box. It will generate the producers that match. Choose the name for the correct office location.
+	•	Currently the sender is defaulted to Lauri  – Do not change this.
+
+	•	If a producer's name is not pulling in IMS for the location on the application, follow the following steps:
+	•	Change task description on file in clearance box to "Eff Date- PDG CL".
+	•	Manual monitoring required -> Email clearance with the below signature.
+	•	Once clearance has added producer, the task description should be changed to "Eff Date- Producer Added. Okay to Proceed". Then continue with submission as normal.
+	•	Submitted Date is put there automatically – Do not change this.
+	•	If the agent does not pull up, either at all, or for the correct office, you will need to add the Producer. "See Special Notes: Adding a Producer to IMS".
+
+Special Notes: Adding A Producer
+If problems occur pulling the name of the producer or location listed on application in IMS, contact clearance lead or marketing.
+
+	•	Double check spelling and name in IMS to make sure that it does not pull the producer.
+	•	If the agency is set up in IMS add the producer to the agency that the application is stating: In IMS > View > Producers.
+
+	•	Type in the Agency’s name.
+	•	Select the agency you need to add the producer to > Click green arrow. (If the agency is not pulling in IMS at all, you will need to contact our Marketing Team. Proceed to STEP FOUR).
+
+
+	•	Click on the "Contact Info" tab.
+	•	Click on the green arrow at the bottom left of the Producer Information window.
+
+	•	If your producer is not in the list, click the new page at the bottom right of the window
+	•	Use the correspondence signature for the following:
+	•	First Name
+	•	Last Name
+	•	Title: Account Manager (check Account Manager to the right as well)
+	•	Email
+	•	Delivery: Email
+	•	Status: Active
+	•	SAVE
+	•	Your producer is set up in IMS now. Okay to proceed.
+	•	If you need to contact EOX, reply to their query email with: Producer added. Okay to proceed.
+	•	Change the Description in ImageRight from “PDG CL” to “Producer Added. Okay to Proceed.”
+	•	(IF you need to find out what location to set up an agent at, contact marketing)
+	•	Open a new mail in Outlook
+	•	Address to Marketing
+	•	CC: Clearance Manager and Clearance Lead
+	•	Subject: (Insured Name) from (Agency Name)
+	•	Attach the original submission’s email (drag the original submission email to the new mail)
+	•	Take snapshots of the agency section of the application, and the producer’s email signature with their office location information, and include those in the email.
+	•	Use one of the following signatures:
+	•	SIGNATURE: PRODUCER LOCATION CHECK (To Marketing):(This signature may need to be amended to fit the specific scenario you have, and don’t forget screenshots of the agency info from the application, and producer’s signature from correspondence)
+Clearance has received the attached submission for the above named insured. The Acord app and correspondence list the agency location as:
+Application: (AGENCY NAME – LOCATION) 
+Correspondence: (AGENCY NAME – LOCATION)
+Please advise what agency location you would like Clearance to set this submission up at.
+	•	SIGNATURE: NO CONTRACT (To Marketing):
+(This signature may need to be amended to fit the specific scenario you have)
+Clearance has received the attached submission for the above named insured. The Acord app and correspondence list the agency location as:
+Application: (AGENCY NAME – LOCATION) Correspondence: (AGENCY NAME – LOCATION)
+The agency is not pulling in IMS or showing on our Producer List.
+Would you like Clearance to set this up as a House Account, and decline for no contract? Please advise
+V/r,
+	•	If Marketing tells you which agency location to use, proceed with their instructions, or relay to EOX how to proceed.
+	•	They may ask you to set the submission up as a house account, and decline for no contract.
+	•	Tell EOX to set the submission up as a house account and decline for no contract
+	•	Special Notes: House Account Setup
+	•	Special Notes: Declinations > Decline for No Contract
+
+	•	Open the Producer List Excel Sheet, and find the correct Agency on the spreadsheet, and identify the correct UW for this submission. Enter the UW name under Underwriter:
+	•	ALWAYS select Full Quote.
+
+Processing a Submission in IMS: Quote Information
+
+When creating the new submission in IMS, the Required Info tab is completed by the clearance desk based on the following guidelines:
+
+It is very important that this information be accurate. It is the foundation for creating the quote/binder/policy for the underwriter. We also base our system reports off the information entered in these fields which allow us to monitor productivity by agent, issuing office, LOB carrier, etc.
+	•	Quoting Office: Regional Insurance Services Company LLC. Leave as is.
+	•	Line: Select the LOB based on the pull down for the program segment it applies to:
+	•	MGA
+	•	MGA Program: Business Auto, General Liability, Property, Inland Marine- Any single (monoline) submitted Package- Any combination of two or more lines of business (BA, GL, CP, IM) not including Umbrella/ Excess
+	•	Select Small Package- Any combination of two or more lines that includes Property for eligible class of business per UW guidelines (Example: property owner/ LRO)
+	•	Garage (for dealer risk only) / Note Package Line of business is for garage service risks.
+	•	Wholesale
+	•	If the submission includes an UMBRELLA, then create a separate card (See Special Notes: EXCESS/ UMBRELLA)
+
+Special Notes: Excess/ Umbrella Info & Card Setup
+GENERAL INFORMATION ABOUT EXCESS COVERAGE
+	•	Excess/UMB is always Wholesale
+	•	They always get set up on it’s own card. Usually accompanied with another LOB (primary)
+	•	Wholesale also receives certain special class GL submissions:
+	•	Bail Bonds
+	•	Bar/Tavern
+	•	Churches
+	•	LRO – Residential/Dwelling
+	•	Plumbing Contractors
+	•	Roofing Contractors
+	•	Special Events
+	•	UW: Wendy Vines = LA and MS
+	•	UW: Sydni Sturdivant = CO and TX
+
+PROCESSING
+	•	Open the card you just set up, in ImageRight. This is now your “Primary” card.
+	•	In IMS, click on the primary card you just set up. Select New Quote.
+	•	Go through the steps to set up a regular submission, with the information from the Primary card. Make sure to select the correct issuing office and UW.
+	•	When you add a UMB Packet, use the regular MGA Manual Packet – (current year). When you label it in ImageRight, label it: MANUAL PACKET – UMB
+	•	Copy the contents from the primary to the UMB card. Delete any LOBs that are not UMB. Delete the Primary MANUAL PACKET (the one not labeled UMB).
+	•	File Mark the Umbrella card: Primary. File Mark the Primary card: Umbrella. (This tells the UWs that there is a Primary and that there is an Excess.
+	•	File note on the Umbrella card: PRIMARY Control #XXXXXX. File note on the Primary Card: EXCESS Control #XXXXXX.
+	•	In IMS, select the Primary card > towards the bottom left of the list, click on the “Notes” tab.
+
+	•	In the File Note popup window > Click Internal > Click Popup > Type: File Note > In body type: Excess Control #XXXXXX > Send.
+
+
+	•	You don’t have to create a file note in IMS for the Excess card. Primary only.
+
+	•	Trucking
+	•	Trucking Program: Trucking BA, Trucking GL, Property, Inland Marine- Any single (monoline) submitted
+	•	Trucking Package BA- Any combination of two or more lines of businesses (BA, CL, CP, IM) not including Umbrella/ Excess
+	•	Note: Trucking program is determined by the presence of risk description (for hire trucking) or request for state/federal filings. It's also determined by the class of business (sand, dirt gravel haulers, forestry/logging operations.) Note, this does not apply to wreckers/ tow trucks.
+	•	State: This is the insured’s state where business is domiciled. If the state is other than LA, TX, AR, OK, CA, MS, NV or AZ verify with management how to enter. 
+	•	Company: CLEARANCE CARRIER until the UW reviews and determines quoting company.
+	•	If CLEARANCE CARRIER is not available, select:
+	•	Houston Specialty Insurance Company if the insured state is in OK, MS or LA.
+	•	Imperium Insurance Company for all other insured states.
+	•	Issuing Office: Select the office on the pull down that matches the agent's state per the application based on the following choices.
+	•	Note: Do not leave in IMS with the default setting of Regional Insurance Services Co LLC.
+	•	RISCOM- Louisiana
+	•	RISCOM- Mississippi
+	•	RISCOM- Texas
+	•	RISCOM- Colorado
+	•	RISCOM Wholesale LLC (for use with LA agents)
+	•	RISCOM Wholesale- Mississippi
+	•	RISCOM Wholesale- Texas
+	•	RISCOM Wholesale- Colorado
+	•	In addition, the following choices are inactive: IIU- Interstater, RISCOM Ohio, RSI Brokers.
+	•	DO not use RISCOM Business Services or RISCOM Claims Management
+	•	Underwriter: Double check the correct UW is listed here.
+	•	The UW name should correspond with the Lead or Insty UW assigned for the agent based on the current producer list or the UW assigned to the program type for the risk.
+	•	(Forestry/Select Small Package, NEMT, Bulk Oil, Wreckers/ Towing)
+	•	Important: The assigned UW should correspond to the issuing office they work in and/or are assigned to handle. The Louisiana office handles agents located in LA, MS, AR and the Colorado office handles agents located in CO, TX, OK, AZ & NV.
+Underwriter Assignments (Current Underwriter Assignments Guide for New Business)
+	Follow the Lead Agent for the Producer list except for specialty programs: Garage, Towing, Forestry, NEMT, Bulk Oil 
+	Insty Threshold: New Business - All Other Insty - 14 days or less from Eff Date
+	Lisa DiGiacomo, Cheryl Cooper, David Grice,  Kent Sutton, Kathy Hodak and Brad Averill 
+	•	Insty & Lead for assigned agent base
+ 	Amy Vig
+	•	Insty and Lead for assigned agent base
+	•	Insty and Lead for All MS issuing office (other than Forestry)
+	•	Insty for Paul Kyle's agent base 
+	Charity Diezman 
+	•	Insty & Lead for Assigned Agent base
+	•	All New garage for all agents
+ 	Paul Kyle
+	•	Lead for assigned agent base / No Insty
+ 	Wendy Vines 
+	•	Insty and Lead for assigned agent base 
+	•	Insty and Lead for all Wholesale   
+	Angie Strickland
+	•	Forestry for assigned agents
+	•	Insty & Lead for assigned agent base
+	John Hellyer 
+	•	Forestry for assigned Agents,
+	•	Programs for All agents - Bulk Fuel, Towing & NEMT
+	•	Insty & Lead for assigned agent base
+	•	Policy Type: New
+	•	Effective: (Located on application)
+	•	Note: If the effective date is the current date, use the effective date 7 days in the future for reporting purposes.
+
+
+Effective Date Rules
+	•	If the effective date is already past the current date, or is the current date, then set the effective date 7 days out from current date
+	•	If the agent forgot to change the effective date to the current policy year, check your correspondence too just in case they mentioned the effective date there. It could be in the subject line or in the body of the email. Whether it is listed in correspondence or not, verify that it’s indeed an updated application as best as you can, and make the best educated decision you can. File note that the date has a discrepancy, and what you set it as vs. what the app says.
+	•	If you receive two effective dates (application says one, and correspondence says another), always go by what’s on the application, but file note the discrepancy.
+	•	90 Day Rule: If a submission is received on an account where the effective date has passed but it's still within a 90 day window, enter the submission as normal but send the below e-mail to each underwriter notifying them that 2 submission have been received within the 90 day time period. See below:
+
+SAME Submission Received within 90 days from the effective (past effective date): (Underwriters)
+A second submission has been received from (list second agency) for the same insured already in IMS for (current agency). The effective date has already past on the first submission in but the second submission effective date falls within the 90 day rule. Please discuss between each underwriter to determine which submission to decline and let the agent know.
+
+
+	•	Click on the "Premium Info" tab.
+	•	Enter the description from the application here.
+	•	Found on Page 2 under Nature of Business, Premise Description of Operations, Correspondence, or Narrative.
+
+	•	Please see the section on Descriptions under "Special Notes: Descriptions" for more information on this topic.
+
+
+
+Descriptions
+
+The purpose of the description is to tell the UW what kind of business the insured is, and what they do, with as few words as possible.
+	•	Use commas to separate a series of words
+	•	Do not include the description is for the “insured” or “applicant” 
+	•	Do not include longevity or quality of the business
+	•	Capitalize each word (excluding: of, are, in, for, etc.) 
+	•	Use the & symbol instead of typing “and”
+
+Places to look for a description, in order of where you should look:
+
+	•	Pg. 2 of the Acord application (sometimes on Pg. 1 if the agent used an older version) under “Nature of Business”
+
+	•	Also on Pg. 2, under “Premises Information” you can sometimes find an agent listed a description there. Generally, you’d only use the description for the first location, if applicable.
+
+	•	Correspondence. A lot of times the agents will tell the UW the nature of the business there. 
+	•	Narratives, when supplied.
+	•	If there is a GL, MTC, or GARAGE LOB with the application, you can sometimes find a description there.
+Descriptions: Garage
+
+	•	If the Insured is in LA, set up for Charity Diezman. (Other states assign to the normal UW per Producer List).
+	•	If it’s a Garage SERVICE, no matter how many LOBs (so monoline Garage, or accompanied with other LOBs) set up as a PACKAGE. (If there’s an Excess/UMB still split out for wholesale).
+	•	Description tab should read: GARAGE SERVICE – (description of business)
+	•	If it’s a Garage DEALER (car lot, sales, etc), set up as a GARAGE (no matter how many LOBs).
+	•	Description tab should read: GARAGE DEALER – (description of business 
+	•	Select corresponding Garage Manual Packet.
+Descriptions: Trucking
+
+	•	If it is a Trucking LOB, start the description with:
+	•	Trucking – Hauls (description of what it hauls)
+
+	•	Click on the "Renewal Info" tab.
+	•	Here, the prior carrier information will be entered.
+	•	Can be found on page 3 and/or 4 of the application, correspondence, or loss runs (if supplied).
+	•	It needs to be for the prior year Policy Period only.
+
+	•	Once found, enter the company from the drop-down menu.
+	•	If no prior carrier information is found, mark as “Unknown”
+	•	If the carrier is not listed in IMS, mark as “Unknown” and leave the following File Note
+	•	Expiring Carrier (name the carrier) not available in IMS. Selected Unknown in lieu of what is shown on application.
+	•	More information on this under "Special Notes: Prior Carrier" Information section.
+	•	Click Next
+
+
+Special Notes: Prior Carrier
+Garage
+Garage coverage provides the insured with coverage for service stations, auto body shops, dealerships, and similar businesses.
+	•	No matter how many LOBs are submitted
+	•	If the AGENCY is in LA, set up for Charity Diezman
+	•	Other states, assign to Lead UW per Producer List
+	•	Is the Garage submission for a Garage Service, or a Garage Dealer?
+	•	Dealer = New or Used Sales Lot
+	•	Service = Auto Body, Paint, Tire, Service, etc.
+	•	Garage Dealer – Set up LOB as GARAGE
+	•	Garage DEALER = Vehicle SALES. (New & Used Car/Boat/etc Lots). A Dealer is one who sells actual vehicles and keeps vehicles on their premises to sell them.
+	•	Description/Nature of Business Format: Garage Dealer – (Describe)
+	•	MANUAL PACKET: Garage Manual Packet > GARAGE DEALER Manual Packet
+	•	Garage Service – Set up LOB as a PACKAGE
+	•	Garage SERVICE = Garage OPERATIONS. (Vehicle Maintenance Shops, Auto Repair, Tire Installation – all of which could include “sales” of parts for vehicles that they work on/service. They also keep customer vehicles in their shop (keeper).
+	•	Description/Nature of Business Format: Garage Service – (Describe)
+	•	MANUAL PACKET: Garage Manual Packet > AUTO SERVICE Manual Packet
+	•	If a Garage submission is both sales and service, set it up as a Garage Dealer
+	•	In a Towing AND Garage scenario, Towing supersedes Garage.
+Towing
+	•	Always set up as a PACKAGE
+	•	All Towing is assigned to John Hellyer
+	•	There should be a TT Supplemental Application
+	•	Towing supersedes Garage – If you get a submission that includes both a Garage and is a Towing scenario, then assign the task to the Towing Lead
+	•	Marine Towing – Set up for Insty/Lead UW. Not just John Hellyer
+Trucking & Logging
+	•	Defined as: “For Hire”, Hired to haul something for profit; moving things for profit, as a truck-for-hire scenario. If they are merely transporting their own products, it is just a regular BA.
+	•	Description Format: Trucking – Hauls (description of what they haul)
+	•	Trucking does not include Trash Trucks/Waste/Disposal/Roll Off Containers. They provide the service of hauling away and disposing of their customer’s items.
+	•	BAs for Logging are always Trucking BA
+	•	Angie Strickland receives all Trucking apps from Lincoln Transportation Agency.
+Logging
+	•	UW Assignment = Logging Lead per Producer List. If there is no logging lead listed, assign to John Hellyer.
+	•	BAs for Logging are always Trucking BA
+	•	It’s considered Logging if: Hauls Logs, Mechanized Logger
+	•	It’s NOT considered Logging if: Treated Wood, Wood pellets, Lumber, Paper or “Finished” products
+Processing a Submission in IMS: Policy Information/ Confirmation
+
+	•	Policy Information – Insured/Producer
+	•	This is your chance to double check the information that you have put in from the application.
+	•	On the Insured Information tab, double check Business name, Name on Policy, FEIN and DBA if applicable.
+
+	•	On the Mailing Address tab, double check that your address and phone number match the application.
+
+	•	On the Billing Address tab, you will want to list the 2ndaddress and phone number on the application, found on Pg. 2 of the Acord app.
+	•	If there is not a second address or phone # listed, copy over the address and phone # from the Mailing Address tab
+	•	If there is only a PO Box listed as the Mailing Address, DO NOT put a PO Box as the Billing Address. Just leave blank.
+	•	If there is no first or second phone # on the application, leave blank.
+
+
+	•	Click the Save Button
+Policy Detail/ Insured Summary/ Manual Packets
+
+	•	The Policy Detail screen will appear.
+	•	Manual validation -> Validate the ACORD form with the final screen
+	•	Click on the Policy tab --> Insured Summary.
+
+	•	The Insured Summary screen appears.
+	•	Scroll down to the bottom so that you see the last two control numbers. The very bottom control number is the one you just created. The one above that is the control number we need to relate the new file to.
+
+	•	Open ImageRight and click on the card just created. Right click --> Add related File(s).
+
+
+	•	When the "Add Related Files" pop-up appears:
+	•	Click in the File Number field and type in the second to last control number from the Insuraced Summary.
+	•	Click enter on the keyboard three times.
+	•	Now, all of the files for the insured are related.
+
+	•	In IMS, print a copy of the Insured Summary into the file.
+	•	Click on "Click here to view this as a report" located on the bottom left of the Insured Summary.
+
+	•	Once you get the popup report, click on the Print button > to ImageRight > Ok.
+	•	Manual process to verify -> Make sure the PDF is printed in 1 page
+
+
+     Note: If two pages are give go to properties > Page per sheet is 2 > unclick draw border > ok
+	•	In ImageRight, in the ActiveReport Document pop-up box click on the Import Into tab > Prior to Binding > Quote Application > Misc. >
+	•	Document description: INSURED SUMMARY REPORT > Import
+
+
+
+	•	Close out the Insured Summary windows in IMS.
+Autoprocessing
+
+	•	Locate the window pushed behind ImageRight when TEMP file was opened.
+	•	BE sure the card just created is selected in ImageRight when begin processing; NOT the TEMP file.
+	•	Enter the control number just created. Hit the tab key on keyboard – Insured name should fill in.
+	•	If it does not fill in, or the name doesn’t match the application just processed, the wrong control number was entered and must be fixed.
+	•	Be sure "Document Type" says Misc – Misc.
+	•	Folder: Prior to Binding – Prior to Binding/Correspondence – Correspondence.
+	•	Task Priority: 1 (Insty) or 5 (Non-Insty).
+	•	If UW sent a submission to InstyQuote, but the effective date is not within the Insty two week period, mark the Priority as 5 here.
+	•	It’s okay for a UW to request that a submission be processed in Insty time, but that does not make the actual submission a true “Insty” – hence why it will need to be marked as a Priority 5 here.
+	•	Send to User: Insert the UW for this file
+	•	Resume > Update > Release
+
+	•	The next popup window, select Yes to go back to the Clearance box, and No to not.
+
+
+
+
+
+
+
+
+
+
+Manual Process Checklist, validate the values with the ACORD Form (Note: Not all values are present on the ACORD Form)
+
+	•	Checking the info entered in IR entered in the IMS, click on the yellow link 3 times
+IMS Page: Primary Info:
+	•	Entity type
+	•	Name of the insured
+	•	Check the fein number and name (do not need to change the fein number as of now)
+	•	Check the name of the policy should be same as Business name
+	•	Check the address
+	•	Check the zip code
+	•	Check the phone number
+	•	Check email 
+	•	Check the dba field (Name of the Business name along with DBA)
+	•	The email field
+	•	Click on edit insure to make any changes which is needed
+IMS Page: Check Contact info - Page 2
+	•	Check contact type - special contacts
+	•	First name
+	•	Last name
+	•	Address
+	•	Zip code
+	•	Phone number
+	•	email
+
+Submission: (Close the tab, search under insured  ->”TESTING <fIle name>”) 
+Check the first row
+	•	Check producer name (Check for Agency name)
+	•	Underwriter name
+
+Quote information (Right click on the card and Edit quote):
+	•	Check line of business (All the cross marked ones need to be verified with all the PFD for all LOB) 
+	•	Check state
+	•	Check company - CLEARANCE CARRIER
+	•	Check issuing office (Refer Page 15 of the SOP)
+	•	Check underwriter
+	•	Effective date
+	•	Check risk description (Must follow all the special notes: Refer page 17)
+	•	Check renewal info (expiring carrier) 
+	•	Cross check billing address and mailing address (PO Box address should not be put under Billing address, refer page 19)
+	•	If there are changes, print it again.
+	•	Go to insured summary and print it.
+	•	Change the description before importing. - INSURED SUMMARY REPORT (click on import info)
+              
+	•	Import into prior_to_binding -> quote_application -> misc
+	•	Delete the previous 
+	•	Back to pop-up > change the control no. > select “Docment Type” > Says Misc-Misc
+	•	Resume > update > release
+	•	Popup window > select Yes > Back to Clearence Box

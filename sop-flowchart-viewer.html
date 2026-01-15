@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RISCOM New Insured Process SOP - Flow Chart</title>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "default",
+        flowchart: {
+          useMaxWidth: true,
+          htmlLabels: true,
+          curve: "basis",
+        },
+      });
+    </script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 100%;
+        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 2em;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .header p {
+        font-size: 1.1em;
+        opacity: 0.9;
+      }
+
+      .controls {
+        padding: 20px 30px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-primary {
+        background: #667eea;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #5568d3;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-secondary {
+        background: #6c757d;
+        color: white;
+      }
+
+      .btn-secondary:hover {
+        background: #5a6268;
+      }
+
+      .btn-success {
+        background: #28a745;
+        color: white;
+      }
+
+      .btn-success:hover {
+        background: #218838;
+      }
+
+      .zoom-controls {
+        display: flex;
+        gap: 10px;
+        margin-left: auto;
+      }
+
+      .chart-container {
+        padding: 40px;
+        background: white;
+        overflow: auto;
+        min-height: 600px;
+      }
+
+      .mermaid {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .legend {
+        padding: 20px 30px;
+        background: #f8f9fa;
+        border-top: 1px solid #dee2e6;
+      }
+
+      .legend h3 {
+        margin-bottom: 15px;
+        color: #495057;
+      }
+
+      .legend-items {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+      }
+
+      .legend-color {
+        width: 30px;
+        height: 30px;
+        border-radius: 4px;
+        border: 2px solid #dee2e6;
+      }
+
+      .info-panel {
+        padding: 20px 30px;
+        background: #e7f3ff;
+        border-top: 3px solid #667eea;
+      }
+
+      .info-panel h3 {
+        color: #667eea;
+        margin-bottom: 10px;
+      }
+
+      .info-panel ul {
+        list-style-position: inside;
+        color: #495057;
+      }
+
+      .info-panel li {
+        margin: 5px 0;
+      }
+
+      @media print {
+        body {
+          background: white;
+          padding: 0;
+        }
+
+        .controls,
+        .info-panel {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🔄 RISCOM New Insured Process</h1>
+        <p>Standard Operating Procedure - Interactive Flow Chart</p>
+      </div>
+
+      <div class="controls">
+        <button class="btn btn-primary" onclick="zoomIn()">🔍 Zoom In</button>
+        <button class="btn btn-primary" onclick="zoomOut()">🔍 Zoom Out</button>
+        <button class="btn btn-secondary" onclick="resetZoom()">
+          ↺ Reset Zoom
+        </button>
+        <button class="btn btn-success" onclick="downloadSVG()">
+          📥 Download SVG
+        </button>
+        <button class="btn btn-success" onclick="window.print()">
+          🖨️ Print
+        </button>
+      </div>
+
+      <div class="chart-container" id="chartContainer">
+        <pre class="mermaid" id="mermaidChart">
+flowchart TD
+    Start([Start: New Submission Received]) --> OpenIR[Open ImageRight Clearance Desk]
+    OpenIR --> EstablishRDC{RDC Connected?}
+    EstablishRDC -->|No| ConnectRDC[Establish RDC Connection]
+    ConnectRDC --> FetchClearance
+    EstablishRDC -->|Yes| FetchClearance[Fetch Clearance Box]
+    
+    FetchClearance --> CheckEffDate[Note Effective Date & Priority]
+    CheckEffDate --> PrioritizeFiles{Check Priority}
+    
+    PrioritizeFiles -->|Insty ≤14 days| SetPriority1[Set Priority 1 - Red]
+    PrioritizeFiles -->|Regular| SetPriority5[Set Priority 5]
+    
+    SetPriority1 --> SortByDate[Sort by Effective Date Ascending]
+    SetPriority5 --> SortByDate
+    
+    SortByDate --> OpenSubmission[Open Submission]
+    OpenSubmission --> CheckEffDateApp[Check Application for Effective Date]
+    
+    CheckEffDateApp --> MarkEffDate[Mark Effective Date in ImageRight]
+    MarkEffDate --> AutoProcessCheck{Auto Process Available?}
+    
+    AutoProcessCheck -->|Yes| AutoProcess[Click Auto Process]
+    AutoProcessCheck -->|No| ManualOpen[Manual: Double Click to Open]
+    
+    AutoProcess --> OrderPages
+    ManualOpen --> OrderPages[Order & Label Pages in IR]
+    
+    OrderPages --> LabelPages[Label Main Pages: INFO, LOBs]
+    LabelPages --> MoveCorrespondence[Move Correspondence to Folders]
+    MoveCorrespondence --> CheckDNQ[Check Do Not Quote List]
+    
+    CheckDNQ --> OnDNQList{Insured on DNQ List?}
+    OnDNQList -->|Yes| DNQProcess[Add File Note - DNQ<br/>Email UW & Managers<br/>Leave in Submitted Status]
+    OnDNQList -->|No| SearchIMS[Search Insured in IMS]
+    
+    DNQProcess --> End([End - DNQ])
+    
+    SearchIMS --> CrossReference[Cross-Reference:<br/>- Name DBA<br/>- Phone<br/>- Address<br/>- FEIN]
+    
+    CrossReference --> FoundInIMS{Found in IMS?}
+    
+    FoundInIMS -->|No - New Insured| CreateInsured[Create New Insured]
+    FoundInIMS -->|Yes - Match Found| CheckSubmissionType{Submission Type?}
+    FoundInIMS -->|Partial Match| ReviewMatch[Review & Determine if Same Insured]
+    
+    ReviewMatch --> FoundInIMS
+    
+    CheckSubmissionType -->|New Submission| CreateSubmission[Create New Submission]
+    CheckSubmissionType -->|Renewal| CheckControlNum{Control # Generated?}
+    
+    CheckControlNum -->|No| RescheduleRenewal[Change Description: Eff Date-PDG RWL<br/>Reschedule to UW_RENEWALS]
+    CheckControlNum -->|Yes| CreateSubmission
+    
+    RescheduleRenewal --> DeletePhotos[Delete Photos from Photos Folder]
+    DeletePhotos --> End
+    
+    CreateInsured --> EnterInsuredInfo[Enter Insured Info:<br/>- Business Name<br/>- FEIN<br/>- Address<br/>- Phone]
+    
+    EnterInsuredInfo --> EnterContactInfo[Enter Contact Info from Page 2]
+    EnterContactInfo --> CreateSubmission
+    
+    CreateSubmission --> EnterProducer[Enter Producer By Contact]
+    
+    EnterProducer --> ProducerFound{Producer in IMS?}
+    ProducerFound -->|No| AddProducer[Add Producer to IMS]
+    ProducerFound -->|Yes| SelectProducer[Select Correct Producer & Location]
+    
+    AddProducer --> CheckAgency{Agency in IMS?}
+    CheckAgency -->|No| ContactMarketing[Email Marketing for Agency Setup]
+    CheckAgency -->|Yes| AddToAgency[Add Producer to Agency]
+    
+    ContactMarketing --> WaitForSetup[Wait for Marketing Response]
+    WaitForSetup --> SelectProducer
+    AddToAgency --> SelectProducer
+    
+    SelectProducer --> AssignUW[Assign Underwriter from Producer List]
+    
+    AssignUW --> SelectQuoteType[Select Full Quote]
+    SelectQuoteType --> EnterQuoteInfo[Enter Quote Information]
+    
+    EnterQuoteInfo --> SetQuotingOffice[Set Quoting Office: RISCOM LLC]
+    SetQuotingOffice --> SelectLOB{Select Line of Business}
+    
+    SelectLOB -->|MGA Program| SetMGALOB[Set LOB: BA/GL/CP/IM/Package]
+    SelectLOB -->|Wholesale| SetWholesaleLOB[Set LOB: Wholesale]
+    SelectLOB -->|Trucking| SetTruckingLOB[Set LOB: Trucking BA/Package]
+    SelectLOB -->|Garage| SetGarageLOB[Garage: Dealer vs Service]
+    SelectLOB -->|Umbrella/Excess| CreateSeparateCard[Create Separate UMB Card]
+    
+    SetMGALOB --> SelectState
+    SetWholesaleLOB --> SelectState
+    SetTruckingLOB --> SelectState
+    SetGarageLOB --> CheckGarageType{Dealer or Service?}
+    
+    CheckGarageType -->|Dealer| SetGarageDealer[LOB: GARAGE<br/>Assign: Charity Diezman LA]
+    CheckGarageType -->|Service| SetGarageService[LOB: PACKAGE<br/>Desc: Garage Service]
+    
+    SetGarageDealer --> SelectState
+    SetGarageService --> SelectState
+    
+    CreateSeparateCard --> SetupPrimaryCard[Setup Primary Card]
+    SetupPrimaryCard --> SetupUMBCard[Setup UMB Card Wholesale]
+    SetupUMBCard --> LinkCards[Link Cards with File Marks & Notes]
+    LinkCards --> SelectState
+    
+    SelectState[Select State Domiciled]
+    SelectState --> SetCompany[Set Company: CLEARANCE CARRIER]
+    SetCompany --> SetIssuingOffice[Set Issuing Office by State]
+    
+    SetIssuingOffice --> VerifyUW[Verify UW Assignment]
+    VerifyUW --> CheckSpecialProgram{Special Program?}
+    
+    CheckSpecialProgram -->|Garage LA| AssignCharity[Assign: Charity Diezman]
+    CheckSpecialProgram -->|Towing| AssignJohn[Assign: John Hellyer]
+    CheckSpecialProgram -->|Forestry| AssignForestryLead[Assign: Forestry Lead]
+    CheckSpecialProgram -->|Wholesale| AssignWendy[Assign: Wendy Vines]
+    CheckSpecialProgram -->|Standard| UseProducerList[Use Producer List Assignment]
+    
+    AssignCharity --> SetPolicyType
+    AssignJohn --> SetPolicyType
+    AssignForestryLead --> SetPolicyType
+    AssignWendy --> SetPolicyType
+    UseProducerList --> SetPolicyType
+    
+    SetPolicyType[Set Policy Type: New]
+    SetPolicyType --> SetEffectiveDate[Set Effective Date]
+    
+    SetEffectiveDate --> CheckEffDateRules{Effective Date Check}
+    CheckEffDateRules -->|Past/Current Date| Set7DaysOut[Set 7 Days from Current]
+    CheckEffDateRules -->|Future Date Valid| KeepEffDate[Keep Application Date]
+    CheckEffDateRules -->|Discrepancy| FileNoteDiscrepancy[File Note: Date Discrepancy]
+    
+    Set7DaysOut --> EnterDescription
+    KeepEffDate --> EnterDescription
+    FileNoteDiscrepancy --> EnterDescription
+    
+    EnterDescription[Enter Business Description]
+    EnterDescription --> FindDescription{Description Source}
+    
+    FindDescription -->|Page 2 Nature of Business| UseNatureDesc[Use Nature of Business]
+    FindDescription -->|Premises Info| UsePremisesDesc[Use Premises Description]
+    FindDescription -->|Correspondence| UseEmailDesc[Use Email Description]
+    FindDescription -->|Narrative| UseNarrativeDesc[Use Narrative]
+    
+    UseNatureDesc --> FormatDescription
+    UsePremisesDesc --> FormatDescription
+    UseEmailDesc --> FormatDescription
+    UseNarrativeDesc --> FormatDescription
+    
+    FormatDescription[Format: Capitalize, Use &, Commas]
+    FormatDescription --> SpecialDescFormat{Special Format?}
+    
+    SpecialDescFormat -->|Trucking| TruckingDesc[Trucking - Hauls Description]
+    SpecialDescFormat -->|Garage Dealer| GarageDealerDesc[GARAGE DEALER - Description]
+    SpecialDescFormat -->|Garage Service| GarageServiceDesc[GARAGE SERVICE - Description]
+    SpecialDescFormat -->|Standard| StandardDesc[Standard Description Format]
+    
+    TruckingDesc --> EnterPriorCarrier
+    GarageDealerDesc --> EnterPriorCarrier
+    GarageServiceDesc --> EnterPriorCarrier
+    StandardDesc --> EnterPriorCarrier
+    
+    EnterPriorCarrier[Enter Prior Carrier Info]
+    EnterPriorCarrier --> FindPriorCarrier{Prior Carrier Found?}
+    
+    FindPriorCarrier -->|Found in IMS| SelectFromDropdown[Select from Dropdown]
+    FindPriorCarrier -->|Not Found| MarkUnknown[Mark as Unknown<br/>File Note: Carrier Not in IMS]
+    FindPriorCarrier -->|No Info| MarkUnknownNoInfo[Mark as Unknown]
+    
+    SelectFromDropdown --> ReviewPolicyInfo
+    MarkUnknown --> ReviewPolicyInfo
+    MarkUnknownNoInfo --> ReviewPolicyInfo
+    
+    ReviewPolicyInfo[Review Policy Information]
+    ReviewPolicyInfo --> VerifyInsuredInfo[Verify Insured Info:<br/>- Business Name<br/>- FEIN<br/>- DBA]
+    
+    VerifyInsuredInfo --> VerifyMailingAddress[Verify Mailing Address & Phone]
+    VerifyMailingAddress --> SetBillingAddress[Set Billing Address]
+    SetBillingAddress --> CheckSecondAddress{Second Address Exists?}
+    
+    CheckSecondAddress -->|Yes| UseSecondAddress[Use Second Address]
+    CheckSecondAddress -->|No| CopyMailingAddress[Copy Mailing Address]
+    CheckSecondAddress -->|Only PO Box| LeaveBlank[Leave Billing Address Blank]
+    
+    UseSecondAddress --> SavePolicyInfo
+    CopyMailingAddress --> SavePolicyInfo
+    LeaveBlank --> SavePolicyInfo
+    
+    SavePolicyInfo[Click Save]
+    SavePolicyInfo --> ViewInsuredSummary[View Insured Summary]
+    ViewInsuredSummary --> RelateFiles[Relate Files in ImageRight]
+    
+    RelateFiles --> GetPreviousControl[Get Previous Control # from Summary]
+    GetPreviousControl --> AddRelatedFiles[Add Related Files in IR]
+    AddRelatedFiles --> PrintInsuredSummary[Print Insured Summary to IR]
+    
+    PrintInsuredSummary --> ImportSummary[Import as: INSURED SUMMARY REPORT<br/>To: Prior to Binding/Quote App/Misc]
+    ImportSummary --> StartAutoProcess[Start Autoprocessing]
+    
+    StartAutoProcess --> SelectNewCard[Select New Card in IR]
+    SelectNewCard --> EnterControlNum[Enter Control Number]
+    EnterControlNum --> VerifyControlMatch{Control # Matches?}
+    
+    VerifyControlMatch -->|No| FixControlNum[Fix Control Number]
+    VerifyControlMatch -->|Yes| SetDocumentType[Set Document Type: Misc-Misc]
+    
+    FixControlNum --> SetDocumentType
+    SetDocumentType --> SetFolder[Set Folder: Prior to Binding/Correspondence]
+    SetFolder --> SetTaskPriority{Set Task Priority}
+    
+    SetTaskPriority -->|Insty| SetPrio1[Priority: 1]
+    SetTaskPriority -->|Non-Insty| SetPrio5[Priority: 5]
+    
+    SetPrio1 --> SendToUW
+    SetPrio5 --> SendToUW
+    
+    SendToUW[Send to User: Assigned UW]
+    SendToUW --> ResumeUpdateRelease[Resume > Update > Release]
+    ResumeUpdateRelease --> ValidationCheck[Manual Validation Checklist]
+    
+    ValidationCheck --> ValidateIMS[Validate IMS Data Against ACORD]
+    ValidateIMS --> CheckPrimaryInfo[Check Primary Info:<br/>- Entity Type<br/>- Name<br/>- FEIN<br/>- Address<br/>- Phone<br/>- Email<br/>- DBA]
+    
+    CheckPrimaryInfo --> CheckContactInfo[Check Contact Info:<br/>- Contact Type<br/>- First/Last Name<br/>- Address<br/>- Phone<br/>- Email]
+    
+    CheckContactInfo --> CheckSubmissionInfo[Check Submission Info:<br/>- Producer Name<br/>- UW Name<br/>- Line of Business<br/>- State<br/>- Company<br/>- Issuing Office<br/>- Effective Date<br/>- Description<br/>- Prior Carrier]
+    
+    CheckSubmissionInfo --> CheckAddresses[Check Mailing & Billing Addresses]
+    CheckAddresses --> ChangesNeeded{Changes Needed?}
+    
+    ChangesNeeded -->|Yes| MakeCorrections[Make Corrections in IMS]
+    ChangesNeeded -->|No| FinalReview[Final Review Complete]
+    
+    MakeCorrections --> ReprintSummary[Reprint Insured Summary]
+    ReprintSummary --> DeleteOldSummary[Delete Previous Summary]
+    DeleteOldSummary --> ImportNewSummary[Import New Summary: INSURED SUMMARY REPORT]
+    ImportNewSummary --> FinalReview
+    
+    FinalReview --> BackToClearance[Return to Clearance Box]
+    BackToClearance --> ProcessComplete([Submission Processed])
+    ProcessComplete --> MoreSubmissions{More Submissions?}
+    
+    MoreSubmissions -->|Yes| FetchClearance
+    MoreSubmissions -->|No| EndDay([End of Processing])
+    
+    style Start fill:#90EE90
+    style End fill:#FFB6C1
+    style EndDay fill:#FFB6C1
+    style ProcessComplete fill:#87CEEB
+    style DNQProcess fill:#FFA500
+    style OnDNQList fill:#FF6347
+    style AutoProcess fill:#98FB98
+    style ValidationCheck fill:#DDA0DD
+    style FinalReview fill:#87CEEB
+        </pre>
+      </div>
+
+      <div class="legend">
+        <h3>🎨 Legend</h3>
+        <div class="legend-items">
+          <div class="legend-item">
+            <div class="legend-color" style="background: #90ee90"></div>
+            <span>Start Point</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #ffb6c1"></div>
+            <span>End Point / DNQ</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #87ceeb"></div>
+            <span>Completion / Review</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #98fb98"></div>
+            <span>Auto Process</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #ffa500"></div>
+            <span>DNQ Process</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #dda0dd"></div>
+            <span>Validation</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-panel">
+        <h3>📋 Key Process Areas</h3>
+        <ul>
+          <li>
+            <strong>ImageRight Processing:</strong> Initial submission intake,
+            prioritization, and document organization
+          </li>
+          <li>
+            <strong>IMS Cross-Reference:</strong> Verify insured against
+            existing database and DNQ list
+          </li>
+          <li>
+            <strong>New Insured Setup:</strong> Create insured profile with
+            complete contact and business information
+          </li>
+          <li>
+            <strong>Producer Assignment:</strong> Identify and assign
+            appropriate producer and underwriter
+          </li>
+          <li>
+            <strong>Quote Configuration:</strong> Set LOB, state, company, and
+            issuing office
+          </li>
+          <li>
+            <strong>Special Handling:</strong> Garage (Dealer/Service),
+            Trucking, Towing, Forestry, Wholesale, Excess/Umbrella
+          </li>
+          <li>
+            <strong>Policy Information:</strong> Enter descriptions, prior
+            carriers, effective dates
+          </li>
+          <li>
+            <strong>Validation & Completion:</strong> Final checklist
+            verification and routing to underwriter
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      let currentZoom = 1;
+
+      function zoomIn() {
+        currentZoom += 0.1;
+        applyZoom();
+      }
+
+      function zoomOut() {
+        currentZoom = Math.max(0.3, currentZoom - 0.1);
+        applyZoom();
+      }
+
+      function resetZoom() {
+        currentZoom = 1;
+        applyZoom();
+      }
+
+      function applyZoom() {
+        const chart = document.querySelector("#mermaidChart svg");
+        if (chart) {
+          chart.style.transform = `scale(${currentZoom})`;
+          chart.style.transformOrigin = "top center";
+        }
+      }
+
+      function downloadSVG() {
+        const svg = document.querySelector("#mermaidChart svg");
+        if (svg) {
+          const svgData = new XMLSerializer().serializeToString(svg);
+          const blob = new Blob([svgData], { type: "image/svg+xml" });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = "riscom-sop-flowchart.svg";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        }
+      }
+
+      // Apply zoom controls after Mermaid renders
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          const svg = document.querySelector("#mermaidChart svg");
+          if (svg) {
+            svg.style.transition = "transform 0.3s ease";
+          }
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>

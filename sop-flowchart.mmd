@@ -1,0 +1,258 @@
+flowchart TD
+    Start([Start: New Submission Received]) --> OpenIR[Open ImageRight Clearance Desk]
+    OpenIR --> EstablishRDC{RDC Connected?}
+    EstablishRDC -->|No| ConnectRDC[Establish RDC Connection]
+    ConnectRDC --> FetchClearance
+    EstablishRDC -->|Yes| FetchClearance[Fetch Clearance Box]
+    
+    FetchClearance --> CheckEffDate[Note Effective Date & Priority]
+    CheckEffDate --> PrioritizeFiles{Check Priority}
+    
+    PrioritizeFiles -->|Insty ≤14 days| SetPriority1[Set Priority 1 - Red]
+    PrioritizeFiles -->|Regular| SetPriority5[Set Priority 5]
+    
+    SetPriority1 --> SortByDate[Sort by Effective Date Ascending]
+    SetPriority5 --> SortByDate
+    
+    SortByDate --> OpenSubmission[Open Submission]
+    OpenSubmission --> CheckEffDateApp[Check Application for Effective Date]
+    
+    CheckEffDateApp --> MarkEffDate[Mark Effective Date in ImageRight]
+    MarkEffDate --> AutoProcessCheck{Auto Process Available?}
+    
+    AutoProcessCheck -->|Yes| AutoProcess[Click Auto Process]
+    AutoProcessCheck -->|No| ManualOpen[Manual: Double Click to Open]
+    
+    AutoProcess --> OrderPages
+    ManualOpen --> OrderPages[Order & Label Pages in IR]
+    
+    OrderPages --> LabelPages[Label Main Pages: INFO, LOBs]
+    LabelPages --> MoveCorrespondence[Move Correspondence to Folders]
+    MoveCorrespondence --> CheckDNQ[Check Do Not Quote List]
+    
+    CheckDNQ --> OnDNQList{Insured on DNQ List?}
+    OnDNQList -->|Yes| DNQProcess[Add File Note - DNQ<br/>Email UW & Managers<br/>Leave in Submitted Status]
+    OnDNQList -->|No| SearchIMS[Search Insured in IMS]
+    
+    DNQProcess --> End([End - DNQ])
+    
+    SearchIMS --> CrossReference[Cross-Reference:<br/>- Name DBA<br/>- Phone<br/>- Address<br/>- FEIN]
+    
+    CrossReference --> FoundInIMS{Found in IMS?}
+    
+    FoundInIMS -->|No - New Insured| CreateInsured[Create New Insured]
+    FoundInIMS -->|Yes - Match Found| CheckSubmissionType{Submission Type?}
+    FoundInIMS -->|Partial Match| ReviewMatch[Review & Determine if Same Insured]
+    
+    ReviewMatch --> FoundInIMS
+    
+    CheckSubmissionType -->|New Submission| CreateSubmission[Create New Submission]
+    CheckSubmissionType -->|Renewal| CheckControlNum{Control # Generated?}
+    
+    CheckControlNum -->|No| RescheduleRenewal[Change Description: Eff Date-PDG RWL<br/>Reschedule to UW_RENEWALS]
+    CheckControlNum -->|Yes| CreateSubmission
+    
+    RescheduleRenewal --> DeletePhotos[Delete Photos from Photos Folder]
+    DeletePhotos --> End
+    
+    CreateInsured --> EnterInsuredInfo[Enter Insured Info:<br/>- Business Name<br/>- FEIN<br/>- Address<br/>- Phone]
+    
+    EnterInsuredInfo --> EnterContactInfo[Enter Contact Info from Page 2]
+    EnterContactInfo --> CreateSubmission
+    
+    CreateSubmission --> EnterProducer[Enter Producer By Contact]
+    
+    EnterProducer --> ProducerFound{Producer in IMS?}
+    ProducerFound -->|No| AddProducer[Add Producer to IMS]
+    ProducerFound -->|Yes| SelectProducer[Select Correct Producer & Location]
+    
+    AddProducer --> CheckAgency{Agency in IMS?}
+    CheckAgency -->|No| ContactMarketing[Email Marketing for Agency Setup]
+    CheckAgency -->|Yes| AddToAgency[Add Producer to Agency]
+    
+    ContactMarketing --> WaitForSetup[Wait for Marketing Response]
+    WaitForSetup --> SelectProducer
+    AddToAgency --> SelectProducer
+    
+    SelectProducer --> AssignUW[Assign Underwriter from Producer List]
+    
+    AssignUW --> SelectQuoteType[Select Full Quote]
+    SelectQuoteType --> EnterQuoteInfo[Enter Quote Information]
+    
+    EnterQuoteInfo --> SetQuotingOffice[Set Quoting Office: RISCOM LLC]
+    SetQuotingOffice --> SelectLOB{Select Line of Business}
+    
+    SelectLOB -->|MGA Program| SetMGALOB[Set LOB: BA/GL/CP/IM/Package]
+    SelectLOB -->|Wholesale| SetWholesaleLOB[Set LOB: Wholesale]
+    SelectLOB -->|Trucking| SetTruckingLOB[Set LOB: Trucking BA/Package]
+    SelectLOB -->|Garage| SetGarageLOB[Garage: Dealer vs Service]
+    SelectLOB -->|Umbrella/Excess| CreateSeparateCard[Create Separate UMB Card]
+    
+    SetMGALOB --> SelectState
+    SetWholesaleLOB --> SelectState
+    SetTruckingLOB --> SelectState
+    SetGarageLOB --> CheckGarageType{Dealer or Service?}
+    
+    CheckGarageType -->|Dealer| SetGarageDealer[LOB: GARAGE<br/>Assign: Charity Diezman LA]
+    CheckGarageType -->|Service| SetGarageService[LOB: PACKAGE<br/>Desc: Garage Service]
+    
+    SetGarageDealer --> SelectState
+    SetGarageService --> SelectState
+    
+    CreateSeparateCard --> SetupPrimaryCard[Setup Primary Card]
+    SetupPrimaryCard --> SetupUMBCard[Setup UMB Card Wholesale]
+    SetupUMBCard --> LinkCards[Link Cards with File Marks & Notes]
+    LinkCards --> SelectState
+    
+    SelectState[Select State Domiciled]
+    SelectState --> SetCompany[Set Company: CLEARANCE CARRIER]
+    SetCompany --> SetIssuingOffice[Set Issuing Office by State]
+    
+    SetIssuingOffice --> VerifyUW[Verify UW Assignment]
+    VerifyUW --> CheckSpecialProgram{Special Program?}
+    
+    CheckSpecialProgram -->|Garage LA| AssignCharity[Assign: Charity Diezman]
+    CheckSpecialProgram -->|Towing| AssignJohn[Assign: John Hellyer]
+    CheckSpecialProgram -->|Forestry| AssignForestryLead[Assign: Forestry Lead]
+    CheckSpecialProgram -->|Wholesale| AssignWendy[Assign: Wendy Vines]
+    CheckSpecialProgram -->|Standard| UseProducerList[Use Producer List Assignment]
+    
+    AssignCharity --> SetPolicyType
+    AssignJohn --> SetPolicyType
+    AssignForestryLead --> SetPolicyType
+    AssignWendy --> SetPolicyType
+    UseProducerList --> SetPolicyType
+    
+    SetPolicyType[Set Policy Type: New]
+    SetPolicyType --> SetEffectiveDate[Set Effective Date]
+    
+    SetEffectiveDate --> CheckEffDateRules{Effective Date Check}
+    CheckEffDateRules -->|Past/Current Date| Set7DaysOut[Set 7 Days from Current]
+    CheckEffDateRules -->|Future Date Valid| KeepEffDate[Keep Application Date]
+    CheckEffDateRules -->|Discrepancy| FileNoteDiscrepancy[File Note: Date Discrepancy]
+    
+    Set7DaysOut --> EnterDescription
+    KeepEffDate --> EnterDescription
+    FileNoteDiscrepancy --> EnterDescription
+    
+    EnterDescription[Enter Business Description]
+    EnterDescription --> FindDescription{Description Source}
+    
+    FindDescription -->|Page 2 Nature of Business| UseNatureDesc[Use Nature of Business]
+    FindDescription -->|Premises Info| UsePremisesDesc[Use Premises Description]
+    FindDescription -->|Correspondence| UseEmailDesc[Use Email Description]
+    FindDescription -->|Narrative| UseNarrativeDesc[Use Narrative]
+    
+    UseNatureDesc --> FormatDescription
+    UsePremisesDesc --> FormatDescription
+    UseEmailDesc --> FormatDescription
+    UseNarrativeDesc --> FormatDescription
+    
+    FormatDescription[Format: Capitalize, Use &, Commas]
+    FormatDescription --> SpecialDescFormat{Special Format?}
+    
+    SpecialDescFormat -->|Trucking| TruckingDesc[Trucking - Hauls Description]
+    SpecialDescFormat -->|Garage Dealer| GarageDealerDesc[GARAGE DEALER - Description]
+    SpecialDescFormat -->|Garage Service| GarageServiceDesc[GARAGE SERVICE - Description]
+    SpecialDescFormat -->|Standard| StandardDesc[Standard Description Format]
+    
+    TruckingDesc --> EnterPriorCarrier
+    GarageDealerDesc --> EnterPriorCarrier
+    GarageServiceDesc --> EnterPriorCarrier
+    StandardDesc --> EnterPriorCarrier
+    
+    EnterPriorCarrier[Enter Prior Carrier Info]
+    EnterPriorCarrier --> FindPriorCarrier{Prior Carrier Found?}
+    
+    FindPriorCarrier -->|Found in IMS| SelectFromDropdown[Select from Dropdown]
+    FindPriorCarrier -->|Not Found| MarkUnknown[Mark as Unknown<br/>File Note: Carrier Not in IMS]
+    FindPriorCarrier -->|No Info| MarkUnknownNoInfo[Mark as Unknown]
+    
+    SelectFromDropdown --> ReviewPolicyInfo
+    MarkUnknown --> ReviewPolicyInfo
+    MarkUnknownNoInfo --> ReviewPolicyInfo
+    
+    ReviewPolicyInfo[Review Policy Information]
+    ReviewPolicyInfo --> VerifyInsuredInfo[Verify Insured Info:<br/>- Business Name<br/>- FEIN<br/>- DBA]
+    
+    VerifyInsuredInfo --> VerifyMailingAddress[Verify Mailing Address & Phone]
+    VerifyMailingAddress --> SetBillingAddress[Set Billing Address]
+    
+    SetBillingAddress --> CheckSecondAddress{Second Address Exists?}
+    CheckSecondAddress -->|Yes| UseSecondAddress[Use Second Address]
+    CheckSecondAddress -->|No| CopyMailingAddress[Copy Mailing Address]
+    CheckSecondAddress -->|Only PO Box| LeaveBlank[Leave Billing Address Blank]
+    
+    UseSecondAddress --> SavePolicyInfo
+    CopyMailingAddress --> SavePolicyInfo
+    LeaveBlank --> SavePolicyInfo
+    
+    SavePolicyInfo[Click Save]
+    SavePolicyInfo --> ViewInsuredSummary[View Insured Summary]
+    
+    ViewInsuredSummary --> RelateFiles[Relate Files in ImageRight]
+    RelateFiles --> GetPreviousControl[Get Previous Control # from Summary]
+    GetPreviousControl --> AddRelatedFiles[Add Related Files in IR]
+    
+    AddRelatedFiles --> PrintInsuredSummary[Print Insured Summary to IR]
+    PrintInsuredSummary --> ImportSummary[Import as: INSURED SUMMARY REPORT<br/>To: Prior to Binding/Quote App/Misc]
+    
+    ImportSummary --> StartAutoProcess[Start Autoprocessing]
+    StartAutoProcess --> SelectNewCard[Select New Card in IR]
+    
+    SelectNewCard --> EnterControlNum[Enter Control Number]
+    EnterControlNum --> VerifyControlMatch{Control # Matches?}
+    
+    VerifyControlMatch -->|No| FixControlNum[Fix Control Number]
+    VerifyControlMatch -->|Yes| SetDocumentType[Set Document Type: Misc-Misc]
+    
+    FixControlNum --> SetDocumentType
+    
+    SetDocumentType --> SetFolder[Set Folder: Prior to Binding/Correspondence]
+    SetFolder --> SetTaskPriority{Set Task Priority}
+    
+    SetTaskPriority -->|Insty| SetPrio1[Priority: 1]
+    SetTaskPriority -->|Non-Insty| SetPrio5[Priority: 5]
+    
+    SetPrio1 --> SendToUW
+    SetPrio5 --> SendToUW
+    
+    SendToUW[Send to User: Assigned UW]
+    SendToUW --> ResumeUpdateRelease[Resume > Update > Release]
+    
+    ResumeUpdateRelease --> ValidationCheck[Manual Validation Checklist]
+    
+    ValidationCheck --> ValidateIMS[Validate IMS Data Against ACORD]
+    ValidateIMS --> CheckPrimaryInfo[Check Primary Info:<br/>- Entity Type<br/>- Name<br/>- FEIN<br/>- Address<br/>- Phone<br/>- Email<br/>- DBA]
+    
+    CheckPrimaryInfo --> CheckContactInfo[Check Contact Info:<br/>- Contact Type<br/>- First/Last Name<br/>- Address<br/>- Phone<br/>- Email]
+    
+    CheckContactInfo --> CheckSubmissionInfo[Check Submission Info:<br/>- Producer Name<br/>- UW Name<br/>- Line of Business<br/>- State<br/>- Company<br/>- Issuing Office<br/>- Effective Date<br/>- Description<br/>- Prior Carrier]
+    
+    CheckSubmissionInfo --> CheckAddresses[Check Mailing & Billing Addresses]
+    CheckAddresses --> ChangesNeeded{Changes Needed?}
+    
+    ChangesNeeded -->|Yes| MakeCorrections[Make Corrections in IMS]
+    ChangesNeeded -->|No| FinalReview[Final Review Complete]
+    
+    MakeCorrections --> ReprintSummary[Reprint Insured Summary]
+    ReprintSummary --> DeleteOldSummary[Delete Previous Summary]
+    DeleteOldSummary --> ImportNewSummary[Import New Summary: INSURED SUMMARY REPORT]
+    ImportNewSummary --> FinalReview
+    
+    FinalReview --> BackToClearance[Return to Clearance Box]
+    BackToClearance --> ProcessComplete([Submission Processed])
+    
+    ProcessComplete --> MoreSubmissions{More Submissions?}
+    MoreSubmissions -->|Yes| FetchClearance
+    MoreSubmissions -->|No| EndDay([End of Processing])
+    
+    style Start fill:#90EE90
+    style End fill:#FFB6C1
+    style EndDay fill:#FFB6C1
+    style ProcessComplete fill:#87CEEB
+    style DNQProcess fill:#FFA500
+    style OnDNQList fill:#FF6347
+    style AutoProcess fill:#98FB98
+    style ValidationCheck fill:#DDA0DD
+    style FinalReview fill:#87CEEB
