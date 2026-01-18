@@ -1,0 +1,5 @@
+Flask
+pywinrm
+python-dotenv
+uvicorn
+asgiref

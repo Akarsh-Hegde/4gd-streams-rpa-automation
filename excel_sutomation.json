@@ -1,0 +1,40 @@
+{
+  "name": "Excel Automation via WinRM",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "node-1",
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "command": "python3 << 'EOF'\nimport winrm\nimport json\n\n# WinRM Configuration\nserver = '3.139.52.231'\nusername = 'Administrator'\npassword = 'z0w(MR!dEVQdMj979T!@hY;8qIxx%yHZ'\n\n# Create session\nsession = winrm.Session(\n    f'https://{server}:5986/wsman',\n    auth=(username, password),\n    server_cert_validation='ignore'\n)\n\n# PowerShell script to read Excel\nps_script = r'''\n$ExcelFile = \"C:\\\\Users\\\\Administrator\\\\Desktop\\\\test.xlsx\"\n\n$excel = New-Object -ComObject Excel.Application\n$excel.Visible = $false\n$excel.DisplayAlerts = $false\n\ntry {\n    $workbook = $excel.Workbooks.Open($ExcelFile)\n    $worksheet = $workbook.Worksheets.Item(1)\n    \n    # Read data from cells\n    $data = @()\n    $lastRow = $worksheet.UsedRange.Rows.Count\n    $lastCol = $worksheet.UsedRange.Columns.Count\n    \n    for ($row = 1; $row -le $lastRow; $row++) {\n        $rowData = @()\n        for ($col = 1; $col -le $lastCol; $col++) {\n            $cell = $worksheet.Cells.Item($row, $col)\n            $rowData += $cell.Text\n        }\n        $data += ,@($rowData)\n    }\n    \n    # Convert to JSON\n    $json = $data | ConvertTo-Json -Compress\n    Write-Output $json\n    \n} finally {\n    $workbook.Close($false)\n    $excel.Quit()\n    [System.Runtime.Interopservices.Marshal]::ReleaseComObject($worksheet) | Out-Null\n    [System.Runtime.Interopservices.Marshal]::ReleaseComObject($workbook) | Out-Null\n    [System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel) | Out-Null\n    [System.GC]::Collect()\n    [System.GC]::WaitForPendingFinalizers()\n}\n'''\n\n# Execute PowerShell script\nresult = session.run_ps(ps_script)\n\n# Parse output\noutput = result.std_out.decode('utf-8').strip()\nstderr = result.std_err.decode('utf-8').strip()\n\nif result.status_code == 0:\n    print(output)\nelse:\n    print(f\"ERROR: {stderr}\")\nEOF"
+      },
+      "id": "node-2",
+      "name": "Read Excel via WinRM",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [550, 300]
+    }
+  ],
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [
+        [
+          {
+            "node": "Read Excel via WinRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

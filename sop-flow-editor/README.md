@@ -30,6 +30,7 @@ Already installed! The project is ready to use.
 The server is already running at: **http://localhost:5173/**
 
 If you need to restart it:
+
 ```bash
 cd sop-flow-editor
 npm run dev
@@ -48,13 +49,17 @@ npm run dev
 ### Export Your Changes
 
 #### Export as JSON
+
 Click "💾 Export JSON" to download the current flowchart structure as a JSON file. This includes:
+
 - All node positions, labels, and types
 - All edge connections
 - Node styling information
 
 #### Export as Mermaid
+
 Click "📄 Export Mermaid" to download the flowchart as Mermaid diagram code (.mmd file). You can:
+
 - Use this code in documentation
 - View it in the Mermaid HTML viewer
 - Share it with others
@@ -98,6 +103,7 @@ sop-flow-editor/
 ## 🐛 Troubleshooting
 
 ### Server won't start
+
 ```bash
 cd sop-flow-editor
 npm install
@@ -105,6 +111,7 @@ npm run dev
 ```
 
 ### Changes not saving
+
 - Changes are in-memory only
 - Use Export buttons to save your work
 - Refresh the page to reload original data
@@ -112,6 +119,7 @@ npm run dev
 ## 📝 Data Format
 
 ### Node Structure
+
 ```javascript
 {
   id: 'uniqueId',
@@ -123,6 +131,7 @@ npm run dev
 ```
 
 ### Edge Structure
+
 ```javascript
 {
   id: 'e-source-target',
@@ -136,4 +145,3 @@ npm run dev
 ---
 
 **Happy Editing! 🎨**
-
