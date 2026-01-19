@@ -1,0 +1,1438 @@
+{
+  "name": "Insurance Clearance Rules Engine",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "filePath": "=/Users/akarshhegde/input_data.json"
+      },
+      "id": "read-input-json",
+      "name": "Read Input JSON",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse the JSON file content\n// n8n Read Binary File stores binary under items[0].binary.data\nconst bin = items[0].binary?.data;\nif (!bin?.data) {\n  throw new Error('No binary.data found. Ensure Read Input JSON ran successfully.');\n}\nconst jsonString = Buffer.from(bin.data, 'base64').toString('utf-8');\nconst inputData = JSON.parse(jsonString);\nreturn [{ json: { input_data: inputData } }];"
+      },
+      "id": "parse-json",
+      "name": "Parse JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.input_data.accord_form_fields.address_information.state.value }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "check-state-exists",
+      "name": "Check State Exists",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "decline-state",
+              "name": "decline_reason",
+              "value": "!Proceed - Missing Compulsory Fields - state",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "set-state-missing",
+      "name": "Set State Missing Error",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [1120, 180]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.input_data.accord_form_fields.address_information.state.value }}",
+              "operation": "regex",
+              "value2": "^(LA|TX|AR|OK|CA|MS|NV|AZ|CO)$"
+            }
+          ]
+        }
+      },
+      "id": "validate-state",
+      "name": "Validate State",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1120, 420]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "decline-state-unsupported",
+              "name": "decline_reason",
+              "value": "!Proceed - State Not Supported",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "set-unsupported-state",
+      "name": "Set Unsupported State",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [1340, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.input_data.accord_form_fields.applicant_insured_information.insured_name.value }}",
+              "operation": "isNotEmpty"
+            },
+            {
+              "value1": "={{ $json.input_data.accord_form_fields.address_information.street_address.value }}",
+              "operation": "isNotEmpty"
+            },
+            {
+              "value1": "={{ $json.input_data.accord_form_fields.address_information.zip_code.value }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        },
+        "combineOperation": "all"
+      },
+      "id": "check-compulsory-fields",
+      "name": "Check Compulsory Fields",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1340, 540]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "decline-missing-fields",
+              "name": "decline_reason",
+              "value": "!Proceed - Missing Compulsory Fields",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "set-missing-fields",
+      "name": "Set Missing Fields Error",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [1560, 420]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5000/producer/lookup",
+        "authentication": "none",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "agent_name",
+              "value": "={{ $json.input_data.accord_form_fields.producer_agent_information.agent_name.value }}"
+            },
+            {
+              "name": "agency_location",
+              "value": "={{ $json.input_data.accord_form_fields.producer_agent_information.agency_location.value }}"
+            },
+            {
+              "name": "agency_name",
+              "value": "={{ $json.input_data.accord_form_fields.producer_agent_information.agency_name.value }}"
+            }
+          ]
+        }
+      },
+      "id": "lookup-producer",
+      "name": "Lookup Producer",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1560, 660]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.found }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "check-producer-found",
+      "name": "Producer Found?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1780, 660]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "house-account-flag",
+              "name": "house_account_flow",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "processing-status",
+              "name": "processing_status",
+              "value": "Proceed - House Account",
+              "type": "string"
+            },
+            {
+              "id": "producer_info",
+              "name": "producer_info",
+              "value": "={{ {} }}",
+              "type": "json"
+            }
+          ]
+        }
+      },
+      "id": "set-house-account",
+      "name": "Set House Account",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [2000, 540]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "house-account-flag",
+              "name": "house_account_flow",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "processing-status",
+              "name": "processing_status",
+              "value": "Proceed",
+              "type": "string"
+            },
+            {
+              "id": "producer_info",
+              "name": "producer_info",
+              "value": "={{ $json.producer_info || {} }}",
+              "type": "json"
+            }
+          ]
+        }
+      },
+      "id": "set-producer-ok",
+      "name": "Set Producer OK",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [2000, 780]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5000/gemini/analyze_description",
+        "authentication": "none",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "description",
+              "value": "={{ $json.input_data.accord_form_fields.applicant_insured_information.general_business_description.value }}"
+            }
+          ]
+        }
+      },
+      "id": "analyze-description",
+      "name": "Analyze Business Description",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [2220, 660]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5000/lob/map",
+        "authentication": "none",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "input_lob",
+              "value": "={{ $json.input_data.accord_form_fields.lines_of_business_premium }}"
+            },
+            {
+              "name": "description",
+              "value": "={{ $json.input_data.accord_form_fields.applicant_insured_information.general_business_description.value }}"
+            },
+            {
+              "name": "llm_flags",
+              "value": "={{ $json.llm_flags || $json }}"
+            }
+          ]
+        }
+      },
+      "id": "map-lob",
+      "name": "Map LOB",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [2440, 660]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.mapped_lob.commercial_umbrella.value }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "check-umbrella",
+      "name": "Is Umbrella?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2660, 660]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "umbrella-uw",
+              "name": "underwriter",
+              "value": "Vines, Wendy",
+              "type": "string"
+            },
+            {
+              "id": "umbrella-reason",
+              "name": "assignment_reason",
+              "value": "Commercial Umbrella - Wholesale",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "assign-umbrella-uw",
+      "name": "Assign Umbrella UW",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [2880, 540]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.llm_flags.isWreckerTow }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "check-towing",
+      "name": "Is Towing?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2880, 780]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.input_data.accord_form_fields.applicant_insured_information.general_business_description.value }}",
+              "operation": "contains",
+              "value2": "marine"
+            }
+          ]
+        }
+      },
+      "id": "check-marine-towing",
+      "name": "Marine Towing?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [3100, 660]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "towing-uw",
+              "name": "underwriter",
+              "value": "Hellyer, John",
+              "type": "string"
+            },
+            {
+              "id": "towing-reason",
+              "name": "assignment_reason",
+              "value": "Towing/Wrecker Business",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "assign-towing-uw",
+      "name": "Assign Towing UW",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [3320, 540]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "marine-uw",
+              "name": "underwriter",
+              "value": "={{ $json.producer_info.underwriter_name || 'Murphy, Kristin' }}",
+              "type": "string"
+            },
+            {
+              "id": "marine-reason",
+              "name": "assignment_reason",
+              "value": "Marine Towing - Lead UW",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "assign-marine-uw",
+      "name": "Assign Marine UW",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [3320, 780]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.mapped_lob.garage.value || $json.mapped_lob.garage_package.value }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "check-garage",
+      "name": "Is Garage?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [3540, 660]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.input_data.accord_form_fields.address_information.state.value }}",
+              "operation": "equals",
+              "value2": "LA"
+            }
+          ]
+        }
+      },
+      "id": "check-garage-state",
+      "name": "Garage State LA?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [3760, 540]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "garage-la-uw",
+              "name": "underwriter",
+              "value": "Diezman, Charity",
+              "type": "string"
+            },
+            {
+              "id": "garage-la-reason",
+              "name": "assignment_reason",
+              "value": "Garage - Louisiana",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "assign-garage-la-uw",
+      "name": "Assign Garage LA UW",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [3980, 420]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "garage-other-uw",
+              "name": "underwriter",
+              "value": "={{ $json.producer_info.underwriter_name || 'Murphy, Kristin' }}",
+              "type": "string"
+            },
+            {
+              "id": "garage-other-reason",
+              "name": "assignment_reason",
+              "value": "Garage - Other State - Lead UW",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "assign-garage-other-uw",
+      "name": "Assign Garage Other UW",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [3980, 660]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.mapped_lob.trucking_business_auto.value || $json.mapped_lob.trucking_general_liability.value || $json.mapped_lob.trucking_package_business_auto.value || $json.mapped_lob.trucking_package_general_liability.value }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "check-trucking",
+      "name": "Is Trucking?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [4200, 660]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.input_data.accord_form_fields.producer_agent_information.agency_name.value.toLowerCase() }}",
+              "operation": "contains",
+              "value2": "lincoln transportation"
+            }
+          ]
+        }
+      },
+      "id": "check-lincoln-agency",
+      "name": "Lincoln Transportation?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [4420, 540]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "lincoln-uw",
+              "name": "underwriter",
+              "value": "Strickland, Angie",
+              "type": "string"
+            },
+            {
+              "id": "lincoln-reason",
+              "name": "assignment_reason",
+              "value": "Trucking - Lincoln Transportation Agency",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "assign-lincoln-uw",
+      "name": "Assign Lincoln UW",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [4640, 420]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5000/business/check_logging",
+        "authentication": "none",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "description",
+              "value": "={{ $json.input_data.accord_form_fields.applicant_insured_information.general_business_description.value }}"
+            }
+          ]
+        }
+      },
+      "id": "check-logging",
+      "name": "Check Logging Business",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [4640, 780]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.is_logging }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "is-logging",
+      "name": "Is Logging?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [4860, 660]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.producer_info.logging_lead_name }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "check-logging-lead",
+      "name": "Has Logging Lead?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [5080, 540]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "logging-lead-uw",
+              "name": "underwriter",
+              "value": "={{ $json.producer_info.logging_lead_name }}",
+              "type": "string"
+            },
+            {
+              "id": "logging-lead-reason",
+              "name": "assignment_reason",
+              "value": "Logging - Lead from Producer List",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "assign-logging-lead-uw",
+      "name": "Assign Logging Lead UW",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [5300, 420]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "logging-default-uw",
+              "name": "underwriter",
+              "value": "Hellyer, John",
+              "type": "string"
+            },
+            {
+              "id": "logging-default-reason",
+              "name": "assignment_reason",
+              "value": "Logging - Default (No Lead)",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "assign-logging-default-uw",
+      "name": "Assign Logging Default UW",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [5300, 660]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "default-uw",
+              "name": "underwriter",
+              "value": "={{ $json.producer_info.underwriter_name || 'Murphy, Kristin' }}",
+              "type": "string"
+            },
+            {
+              "id": "default-reason",
+              "name": "assignment_reason",
+              "value": "Default - Lead UW from Producer List",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "assign-default-uw",
+      "name": "Assign Default UW",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [5080, 900]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5000/issuing_office/determine",
+        "authentication": "none",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "state_code",
+              "value": "={{ $json.input_data.accord_form_fields.address_information.state.value }}"
+            },
+            {
+              "name": "is_commercial_umbrella",
+              "value": "={{ $json.mapped_lob.commercial_umbrella.value }}"
+            }
+          ]
+        }
+      },
+      "id": "determine-issuing-office",
+      "name": "Determine Issuing Office",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [5520, 660]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5000/date/adjust_effective",
+        "authentication": "none",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "date_str",
+              "value": "={{ $json.input_data.accord_form_fields.submission_policy_information.proposed_effective_date.value }}"
+            }
+          ]
+        }
+      },
+      "id": "adjust-effective-date",
+      "name": "Adjust Effective Date",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [5740, 660]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5000/date/check_120_days",
+        "authentication": "none",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "date_str",
+              "value": "={{ $json.adjusted_date }}"
+            }
+          ]
+        }
+      },
+      "id": "check-120-days",
+      "name": "Check 120 Day Limit",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [5960, 660]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.exceeds_120_days }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "check-date-exceeds",
+      "name": "Date Exceeds 120?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [6180, 660]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "date-exceed-status",
+              "name": "processing_status",
+              "value": "Proceed - Effective Date Outside 120 Days",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "set-date-exceed-status",
+      "name": "Set Date Exceed Status",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [6400, 540]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5000/description/format",
+        "authentication": "none",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "description",
+              "value": "={{ $json.input_data.accord_form_fields.applicant_insured_information.general_business_description.value }}"
+            }
+          ]
+        }
+      },
+      "id": "format-description",
+      "name": "Format Business Description",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [6400, 780]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Merge all processed data and build final output\nconst inputData = $('Parse JSON').first().json.input_data;\n\n// Producer info source depends on branch; prefer Set Producer OK then fallback to Set House Account\nconst producerInfo = $('Set Producer OK').first()?.json?.producer_info\n  ?? $('Set House Account').first()?.json?.producer_info\n  ?? {};\n\nconst mappedLob = $('Map LOB').first()?.json?.mapped_lob ?? {};\nconst issuingOffice = $('Determine Issuing Office').first()?.json?.issuing_office ?? '';\nconst adjustedDate = $('Adjust Effective Date').first()?.json?.adjusted_date ?? inputData.accord_form_fields.submission_policy_information.proposed_effective_date.value;\nconst formattedDesc = $('Format Business Description').first()?.json?.formatted_description\n  ?? inputData.accord_form_fields.applicant_insured_information.general_business_description.value;\n\n// Determine processing status\nconst processingStatus = $('Set Date Exceed Status').first()?.json?.processing_status\n  ?? $('Set Producer OK').first()?.json?.processing_status\n  ?? $('Set House Account').first()?.json?.processing_status\n  ?? 'Proceed';\n\nconst houseAccount = $('Set House Account').first()?.json?.house_account_flow\n  ?? false;\n\n// Underwriter: check highest priority assignment nodes first\nconst uw =\n  $('Assign Umbrella UW').first()?.json?.underwriter ?? ??\n  $('Assign Towing UW').first()?.json?.underwriter ??\n  $('Assign Marine UW').first()?.json?.underwriter ??\n  $('Assign Garage LA UW').first()?.json?.underwriter ??\n  $('Assign Garage Other UW').first()?.json?.underwriter ??\n  $('Assign Lincoln UW').first()?.json?.underwriter ??\n  $('Assign Logging Lead UW').first()?.json?.underwriter ??\n  $('Assign Logging Default UW').first()?.json?.underwriter ??\n  $('Assign Default UW').first()?.json?.underwriter ??\n  (producerInfo.underwriter_name || 'Murphy, Kristin');\n\n// Build output JSON\nconst result = JSON.parse(JSON.stringify(inputData));\n\n// If earlier validation failed, prefer decline_reason if present\nconst declineReason = $('Set Unsupported State').first()?.json?.decline_reason\n  ?? $('Set Missing Fields Error').first()?.json?.decline_reason\n  ?? $('Set State Missing Error').first()?.json?.decline_reason;\n\nif (declineReason) {\n  result.accord_form_fields.submission_policy_information.processing_status.value = declineReason;\n  return [{ json: { result } }];\n}\n\n// Update processing status\nresult.accord_form_fields.submission_policy_information.processing_status.value = processingStatus;\n\n// Producer info\nif (producerInfo?.agency_name) {\n  // If your schema uses producer_name/value, keep as-is\n  if (result.accord_form_fields.producer_agent_information?.producer_name?.value !== undefined) {\n    result.accord_form_fields.producer_agent_information.producer_name.value = producerInfo.agency_name;\n  }\n  if (result.accord_form_fields.producer_agent_information?.agent_agency_name?.value !== undefined) {\n    result.accord_form_fields.producer_agent_information.agent_agency_name.value =\n      `${producerInfo.agent_lastname || ''}, ${producerInfo.agent_firstname || ''}/${producerInfo.agency_display_name || producerInfo.agency_name}`;\n  }\n}\n\n// House account flag\nif (result.accord_form_fields.producer_agent_information?.house_account_flow_indicated?.value !== undefined) {\n  result.accord_form_fields.producer_agent_information.house_account_flow_indicated.value = houseAccount;\n}\n\n// Underwriter\nif (result.accord_form_fields.producer_agent_information?.underwriter?.value !== undefined) {\n  result.accord_form_fields.producer_agent_information.underwriter.value = uw;\n}\n\n// LOB\nresult.accord_form_fields.lines_of_business_premium = mappedLob;\n\n// Issuing office flags\nif (result.accord_form_fields.issuing_office_selection_status && issuingOffice) {\n  for (const office of Object.keys(result.accord_form_fields.issuing_office_selection_status)) {\n    result.accord_form_fields.issuing_office_selection_status[office].value = (office === issuingOffice);\n  }\n}\n\n// Effective date\nresult.accord_form_fields.submission_policy_information.proposed_effective_date.value = adjustedDate;\n\n// Description\nresult.accord_form_fields.applicant_insured_information.general_business_description.value = formattedDesc;\n\n// State fullname\nconst stateMap = {\n  LA: 'Louisiana', TX: 'Texas', AR: 'Arkansas', OK: 'Oklahoma',\n  CA: 'California', MS: 'Mississippi', NV: 'Nevada', AZ: 'Arizona', CO: 'Colorado'\n};\nconst stateCode = result.accord_form_fields.address_information.state.value;\nif (result.accord_form_fields.address_information?.state_fullname?.value !== undefined) {\n  result.accord_form_fields.address_information.state_fullname.value = stateMap[stateCode] || stateCode;\n}\n\n// Prior carrier normalization\nconst priorCarrier = result.accord_form_fields.prior_carrier_information?.prior_carrier_name?.value;\nif (Array.isArray(priorCarrier)) {\n  result.accord_form_fields.prior_carrier_information.prior_carrier_name.value =\n    priorCarrier.length > 0 ? priorCarrier[priorCarrier.length - 1] : 'Unknown';\n} else if (!priorCarrier) {\n  result.accord_form_fields.prior_carrier_information.prior_carrier_name.value = 'Unknown';\n}\n\nreturn [{ json: { result } }];"
+      },
+      "id": "merge-final-output",
+      "name": "Merge Final Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [6620, 660]
+    },
+    {
+      "parameters": {
+        "fileName": "=/Users/akarshhegde/output_result.json",
+        "dataPropertyName": "data",
+        "options": {}
+      },
+      "id": "write-output-json",
+      "name": "Write Output JSON",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [6840, 660]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare binary for write\nconst obj = $json.result;\nconst content = JSON.stringify(obj, null, 2);\nconst data = Buffer.from(content, 'utf-8').toString('base64');\nreturn [{\n  json: $json,\n  binary: {\n    data: {\n      data,\n      mimeType: 'application/json',\n      fileName: 'output_result.json'\n    }\n  }\n}];"
+      },
+      "id": "prepare-binary",
+      "name": "Prepare Binary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [6740, 520]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Read Input JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Input JSON": {
+      "main": [
+        [
+          {
+            "node": "Parse JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse JSON": {
+      "main": [
+        [
+          {
+            "node": "Check State Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check State Exists": {
+      "main": [
+        [
+          {
+            "node": "Validate State",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set State Missing Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate State": {
+      "main": [
+        [
+          {
+            "node": "Check Compulsory Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Unsupported State",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Compulsory Fields": {
+      "main": [
+        [
+          {
+            "node": "Lookup Producer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Missing Fields Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lookup Producer": {
+      "main": [
+        [
+          {
+            "node": "Producer Found?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Producer Found?": {
+      "main": [
+        [
+          {
+            "node": "Set Producer OK",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set House Account",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Producer OK": {
+      "main": [
+        [
+          {
+            "node": "Analyze Business Description",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set House Account": {
+      "main": [
+        [
+          {
+            "node": "Analyze Business Description",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Business Description": {
+      "main": [
+        [
+          {
+            "node": "Map LOB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map LOB": {
+      "main": [
+        [
+          {
+            "node": "Is Umbrella?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Umbrella?": {
+      "main": [
+        [
+          {
+            "node": "Is Towing?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Assign Umbrella UW",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Towing?": {
+      "main": [
+        [
+          {
+            "node": "Marine Towing?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Is Garage?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Marine Towing?": {
+      "main": [
+        [
+          {
+            "node": "Assign Towing UW",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Assign Marine UW",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Garage?": {
+      "main": [
+        [
+          {
+            "node": "Garage State LA?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Is Trucking?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Garage State LA?": {
+      "main": [
+        [
+          {
+            "node": "Assign Garage LA UW",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Assign Garage Other UW",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Trucking?": {
+      "main": [
+        [
+          {
+            "node": "Lincoln Transportation?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check Logging Business",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lincoln Transportation?": {
+      "main": [
+        [
+          {
+            "node": "Assign Lincoln UW",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check Logging Business",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Logging Business": {
+      "main": [
+        [
+          {
+            "node": "Is Logging?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Logging?": {
+      "main": [
+        [
+          {
+            "node": "Has Logging Lead?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Assign Default UW",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Logging Lead?": {
+      "main": [
+        [
+          {
+            "node": "Assign Logging Lead UW",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Assign Logging Default UW",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assign Umbrella UW": {
+      "main": [
+        [
+          {
+            "node": "Determine Issuing Office",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assign Towing UW": {
+      "main": [
+        [
+          {
+            "node": "Determine Issuing Office",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assign Marine UW": {
+      "main": [
+        [
+          {
+            "node": "Determine Issuing Office",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assign Garage LA UW": {
+      "main": [
+        [
+          {
+            "node": "Determine Issuing Office",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assign Garage Other UW": {
+      "main": [
+        [
+          {
+            "node": "Determine Issuing Office",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assign Lincoln UW": {
+      "main": [
+        [
+          {
+            "node": "Determine Issuing Office",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assign Logging Lead UW": {
+      "main": [
+        [
+          {
+            "node": "Determine Issuing Office",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assign Logging Default UW": {
+      "main": [
+        [
+          {
+            "node": "Determine Issuing Office",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assign Default UW": {
+      "main": [
+        [
+          {
+            "node": "Determine Issuing Office",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Determine Issuing Office": {
+      "main": [
+        [
+          {
+            "node": "Adjust Effective Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Adjust Effective Date": {
+      "main": [
+        [
+          {
+            "node": "Check 120 Day Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check 120 Day Limit": {
+      "main": [
+        [
+          {
+            "node": "Date Exceeds 120?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date Exceeds 120?": {
+      "main": [
+        [
+          {
+            "node": "Format Business Description",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Date Exceed Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Date Exceed Status": {
+      "main": [
+        [
+          {
+            "node": "Format Business Description",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Business Description": {
+      "main": [
+        [
+          {
+            "node": "Merge Final Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Unsupported State": {
+      "main": [
+        [
+          {
+            "node": "Merge Final Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Missing Fields Error": {
+      "main": [
+        [
+          {
+            "node": "Merge Final Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set State Missing Error": {
+      "main": [
+        [
+          {
+            "node": "Merge Final Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Final Output": {
+      "main": [
+        [
+          {
+            "node": "Prepare Binary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Binary": {
+      "main": [
+        [
+          {
+            "node": "Write Output JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "versionId": "1",
+  "settings": {
+    "executionTimeout": 3600,
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": true
+  }
+}
